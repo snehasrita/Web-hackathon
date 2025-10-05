@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StyleVogue - Sustainability Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        body {
+            background: #f8f9fa;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        header {
+            background: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 20px 0;
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #e83e8c;
+        }
+
+        .logo span {
+            color: #2c3e50;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 25px;
+        }
+
+        .nav-links a {
+            color: #2c3e50;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #e83e8c;
+        }
+
+        /* Page Header */
+        .page-header {
+            text-align: center;
+            padding: 60px 0 40px;
+        }
+
+        .page-title {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            color: #2c3e50;
+        }
+
+        .page-subtitle {
+            font-size: 1.1rem;
+            color: #7f8c8d;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Dashboard Grid */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin-bottom: 50px;
+        }
+
+        .metric-card {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            transition: transform 0.3s;
+        }
+
+        .metric-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .metric-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 25px;
+        }
+
+        .metric-title {
+            font-size: 1.1rem;
+            color: #2c3e50;
+            font-weight: 600;
+        }
+
+        .metric-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #e83e8c;
+            margin-bottom: 10px;
+        }
+
+        .metric-unit {
+            font-size: 1rem;
+            color: #7f8c8d;
+            margin-left: 5px;
+        }
+
+        .metric-trend {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+
+        .trend-up {
+            color: #2ecc71;
+        }
+
+        .trend-down {
+            color: #e74c3c;
+        }
+
+        .trend-value {
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        /* Year Comparison */
+        .year-comparison {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .year-item {
+            text-align: center;
+            flex: 1;
+        }
+
+        .year-label {
+            font-size: 0.8rem;
+            color: #7f8c8d;
+            margin-bottom: 5px;
+        }
+
+        .year-value {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        .year-highlight {
+            background: #f8e1e7;
+            border-radius: 6px;
+            padding: 8px;
+        }
+
+        /* Progress Bar */
+        .progress-container {
+            margin-top: 20px;
+        }
+
+        .progress-bar {
+            height: 8px;
+            background: #ecf0f1;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 8px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(to right, #e83e8c, #ff9ebe);
+            border-radius: 4px;
+        }
+
+        .progress-labels {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.8rem;
+            color: #7f8c8d;
+        }
+
+        /* Action Buttons */
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: 40px;
+        }
+
+        .action-btn {
+            flex: 1;
+            background: white;
+            border: 2px solid #e83e8c;
+            color: #e83e8c;
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .action-btn:hover {
+            background: #e83e8c;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .action-btn.full {
+            background: #e83e8c;
+            color: white;
+        }
+
+        .action-btn.full:hover {
+            background: #d42a7a;
+        }
+
+        /* Footer */
+        footer {
+            background: #2c3e50;
+            color: white;
+            padding: 40px 0;
+            margin-top: 60px;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+        }
+
+        .footer-column h3 {
+            margin-bottom: 20px;
+            color: #e83e8c;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+
+        .footer-links a {
+            color: #bdc3c7;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: #e83e8c;
+        }
+
+        .copyright {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #34495e;
+            color: #bdc3c7;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="nav-container">
+                <div class="logo">Style<span>Vogue</span></div>
+                <nav class="nav-links">
+                    <a href="#">Home</a>
+                    <a href="#">Collections</a>
+                    <a href="#">Sustainability</a>
+                    <a href="#">About</a>
+                    <a href="#">Contact</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="page-header">
+            <h1 class="page-title">Sustainability Dashboard</h1>
+            <p class="page-subtitle">Tracking our environmental impact and progress toward sustainable fashion</p>
+        </div>
+
+        <div class="dashboard-grid">
+            <!-- Carbon Footprint Card -->
+            <div class="metric-card">
+                <div class="metric-header">
+                    <div class="metric-title">Carbon Footprint Reduction</div>
+                </div>
+                <div class="metric-value">2,847<span class="metric-unit">tCO₂e</span></div>
+                <div class="metric-trend trend-down">
+                    <i class="fas fa-arrow-down"></i>
+                    <span class="trend-value">16% reduction from 2019</span>
+                </div>
+                
+                <div class="year-comparison">
+                    <div class="year-item">
+                        <div class="year-label">2022</div>
+                        <div class="year-value year-highlight">2,847</div>
+                    </div>
+                    <div class="year-item">
+                        <div class="year-label">2021</div>
+                        <div class="year-value">3,012</div>
+                    </div>
+                    <div class="year-item">
+                        <div class="year-label">2020</div>
+                        <div class="year-value">3,389</div>
+                    </div>
+                    <div class="year-item">
+                        <div class="year-label">2019</div>
+                        <div class="year-value">3,392</div>
+                    </div>
+                </div>
+
+                <div class="progress-container">
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 84%"></div>
+                    </div>
+                    <div class="progress-labels">
+                        <span>2019 Baseline</span>
+                        <span>2022 Actual</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Water Usage Card -->
+            <div class="metric-card">
+                <div class="metric-header">
+                    <div class="metric-title">Water Consumption</div>
+                </div>
+                <div class="metric-value">18.3<span class="metric-unit">M Liters</span></div>
+                <div class="metric-trend trend-down">
+                    <i class="fas fa-arrow-down"></i>
+                    <span class="trend-value">22% reduction from 2019</span>
+                </div>
+                
+                <div class="year-comparison">
+                    <div class="year-item">
+                        <div class="year-label">2022</div>
+                        <div class="year-value year-highlight">18.3M</div>
+                    </div>
+                    <div class="year-item">
+                        <div class="year-label">2021</div>
+                        <div class="year-value">19.8M</div>
+                    </div>
+                    <div class="year-item">
+                        <div class="year-label">2020</div>
+                        <div class="year-value">21.4M</div>
+                    </div>
+                    <div class="year-item">
+                        <div class="year-label">2019</div>
+                        <div class="year-value">23.5M</div>
+                    </div>
+                </div>
+
+                <div class="progress-container">
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 78%"></div>
+                    </div>
+                    <div class="progress-labels">
+                        <span>2019 Baseline</span>
+                        <span>2022 Actual</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sustainable Materials Card -->
+            <div class="metric-card">
+                <div class="metric-header">
+                    <div class="metric-title">Sustainable Materials</div>
+                </div>
+                <div class="metric-value">68%<span class="metric-unit">of total</span></div>
+                <div class="metric-trend trend-up">
+                    <i class="fas fa-arrow-up"></i>
+                    <span class="trend-value">27% increase from 2019</span>
+                </div>
+                
+                <div class="year-comparison">
+                    <div class="year-item">
+                        <div class="year-label">2022</div>
+                        <div class="year-value year-highlight">68%</div>
+                    </div>
+                    <div class="year-item">
+                        <div class="year-label">2021</div>
+                        <div class="year-value">59%</div>
+                    </div>
+                    <div class="year-item">
+                        <div class="year-label">2020</div>
+                        <div class="year-value">48%</div>
+                    </div>
+                    <div class="year-item">
+                        <div class="year-label">2019</div>
+                        <div class="year-value">41%</div>
+                    </div>
+                </div>
+
+                <div class="progress-container">
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 68%"></div>
+                    </div>
+                    <div class="progress-labels">
+                        <span>0%</span>
+                        <span>100% Goal</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Waste Reduction Card -->
+            <div class="metric-card">
+                <div class="metric-header">
+                    <div class="metric-title">Manufacturing Waste</div>
+                </div>
+                <div class="metric-value">124<span class="metric-unit">tons</span></div>
+                <div class="metric-trend trend-down">
+                    <i class="fas fa-arrow-down"></i>
+                    <span class="trend-value">31% reduction from 2019</span>
+                </div>
+                
+                <div class="year-comparison">
+                    <div class="year-item">
+                        <div class="year-label">2022</div>
+                        <div class="year-value year-highlight">124</div>
+                    </div>
+                    <div class="year-item">
+                        <div class="year-label">2021</div>
+                        <div class="year-value">142</div>
+                    </div>
+                    <div class="year-item">
+                        <div class="year-label">2020</div>
+                        <div class="year-value">168</div>
+                    </div>
+                    <div class="year-item">
+                        <div class="year-label">2019</div>
+                        <div class="year-value">180</div>
+                    </div>
+                </div>
+
+                <div class="progress-container">
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 69%"></div>
+                    </div>
+                    <div class="progress-labels">
+                        <span>2019 Baseline</span>
+                        <span>2022 Actual</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="action-buttons">
+            <button class="action-btn full">
+                <i class="fas fa-chart-bar"></i>
+                See Full Sustainability Report
+            </button>
+            <button class="action-btn">
+                <i class="fas fa-download"></i>
+                Download Environmental Data
+            </button>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>StyleVogue</h3>
+                    <p>Committed to sustainable fashion and environmental responsibility.</p>
+                </div>
+                <div class="footer-column">
+                    <h3>Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Home</a></li>
+                        <li><a href="#">Collections</a></li>
+                        <li><a href="#">Sustainability</a></li>
+                        <li><a href="#">About Us</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Sustainability</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Our Commitments</a></li>
+                        <li><a href="#">Material Sourcing</a></li>
+                        <li><a href="#">Manufacturing</a></li>
+                        <li><a href="#">Circular Fashion</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2023 StyleVogue. Crafting fashion responsibly.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Add animation to metric cards on scroll
+        document.addEventListener('DOMContentLoaded', function() {
+            const metricCards = document.querySelectorAll('.metric-card');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            metricCards.forEach(card => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+                card.style.transition = 'opacity 0.5s, transform 0.5s';
+                observer.observe(card);
+            });
+
+            // Add click handlers for action buttons
+            document.querySelectorAll('.action-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    if (this.classList.contains('full')) {
+                        alert('Opening full sustainability report...');
+                    } else {
+                        alert('Downloading environmental data...');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
